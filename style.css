@@ -1,0 +1,19 @@
+/* colors: #eee4de (creme ish), 
+#bccfd9 (lighter blue), 
+#c8d2ca (kinda green) , 
+#9aadba ( slighlt darker blue) */
+
+
+.highlight {
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.green {
+  background-color: #c8d2ca;
+}
+.red {
+  background-color: lightblue;
+}
