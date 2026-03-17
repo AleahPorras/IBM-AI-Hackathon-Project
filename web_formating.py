@@ -8,6 +8,32 @@ from susans_symps import SUSANSYMP
 st_yled.init()
 local_css("style.css")
 
+def time_sort_key(item):
+    return datetime.datetime.strptime(item["time"], "%I:%M %p")
+
+def get_daily_schedule():
+    schedule = []
+    for med in st.session_state.medications:
+        times = [t.strip() for t in med["time"].split(",")]
+        for t in times:
+            schedule.append({
+                "time": t,
+                "name": med["name"],
+                "dose": med["dose"],
+                "instructions": med["instructions"]
+            })
+    
+    schedule.sort(key=time_sort_key)
+    return schedule
+
+def render_schedule():
+    for item in get_daily_schedule():
+        box = st.container(border=True)
+        box.markdown(f"**{item['time']}** — {item['name']} {item['dose']}")
+        box.caption(f"{item['instructions']}")
+
+    
+
 if "symptoms" not in st.session_state:
     st.session_state.symptoms = SUSANSYMP
 if "medications" not in st.session_state:
@@ -68,10 +94,6 @@ if pages == "Prescription Hub":
         container.markdown(f"{med['frequency']} : {med['time']}")
         container.caption(f"{med['purpose']} — {med['instructions']}")
 
-    
-
-
-    
 
 
 elif pages == "Prescription Schedule":
@@ -85,25 +107,23 @@ elif pages == "Prescription Schedule":
     sun, mon, tue, wed, thu, fri, sat = container.tabs(["   Sunday   ", "   Monday   ", "   Tuesday   ", "   Wednesday   ", "   Thursday   ","   Friday   ", "   Saturday   "], width="stretch")
 
     with sun:
-        
-       st.header("Sunday")
+        render_schedule()
     with mon:
-        st.header("Monday")
+        render_schedule()
         
     with tue:
-        st.header("Tuesday")
+        render_schedule()
        
     with wed:
-        st.header("Wednesday")
+        render_schedule()
      
     with thu:
-        st.header("Thursday")
+        render_schedule()
 
     with fri:
-        st.header("Friday")
-
+        render_schedule()
     with sat:
-        st.header("Saturday")
+        render_schedule()
 
     # sun, mon, tue, wed, thu, fri, sat = st.columns(7, width=700)
 
