@@ -8,6 +8,8 @@ from susans_symps import SUSANSYMP
 st_yled.init()
 local_css("style.css")
 
+if "symptoms" not in st.session_state:
+    st.session_state.symptoms = SUSANSYMP
 if "medications" not in st.session_state:
     st.session_state.medications = SUSANSMEDS
 
@@ -79,7 +81,7 @@ elif pages == "Symptom Logging":
     st.header("Hello Susan!")
     st.caption("How are you feeling today?")
 
-    with st.form(key = "symptom_form"):
+    with st.form(key = "symptom_form", clear_on_submit = True):
     ## use multiselect to choose symptoms
         symptom_opt1ons = st.multiselect(
         "What are your current symptoms?",
@@ -118,12 +120,18 @@ elif pages == "Symptom Logging":
             })
             st.success(f"Added symptom!")
 
-    for symp in st.session_state.symptoms:
+    for i, symp in enumerate(st.session_state.symptoms):
         container = st.container(border=True)
-        container.markdown(f"**{symp['date']}**")
-        container.markdown(f"**Symptom(s)**: {', '.join(symp['symptom'])}")
-        container.markdown(f"**Pain Scale (1-5)**: {symp['severity']}")
-        container.markdown(f"**Notes**: {symp['notes']}")
+        col1, col2 = container.columns([5,1])
+        with col1:
+            st.markdown(f"**{symp['date']}**")
+            st.markdown(f"**Symptom(s)**: {', '.join(symp['symptom'])}")
+            st.markdown(f"**Pain Scale (1-5)**: {symp['severity']}")
+            st.markdown(f"**Notes**: {symp['notes']}")
+        with col2:
+            if st.button("Delete", key = f"delete_{i}"):
+                st.session_state.symptoms.pop(i)
+                st.rerun()
 
 
 
