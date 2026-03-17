@@ -1,7 +1,9 @@
 import streamlit as st
 import st_yled
+import datetime
 from loading_css import local_css
 from susans_meds import SUSANSMEDS
+from susans_symps import SUSANSYMP
 
 st_yled.init()
 local_css("style.css")
@@ -73,11 +75,55 @@ elif pages == "Prescription Schedule":
     st.subheader("Known when to take your subscriptions!")
 
 elif pages == "Symptom Logging":
-     st_yled.title("Symptom Logging", color = "#9aadba", font_size = "2.5rem")
-     st.header("Hello Susan!")
-     st.caption("How are you feeling today?")
+    st_yled.title("Symptom Logging", color = "#9aadba", font_size = "2.5rem")
+    st.header("Hello Susan!")
+    st.caption("How are you feeling today?")
 
+    with st.form(key = "symptom_form"):
+    ## use multiselect to choose symptoms
+        symptom_opt1ons = st.multiselect(
+        "What are your current symptoms?",
+        ["Nausea", "Fatigue", "Rash", 
+        "Shortness of Breath", "Dizziness", 
+        "Headaches","Swelling","Chest Pain", "High Blood Pressure",
+        "Low Blood Pressure", "Insomnia", "Weight Loss", "Weight Gain",
+        "Cramping", "Confusion", "Diarrhea", "Vomiting", "Constipation"],
+        accept_new_options=True,
+    )
 
+        ## Date of symptom
+
+        d = st.date_input("When did symptom(s) first occur?", value = "today")
+
+        ## rate severity of pain
+        pain_options = st.number_input(
+            "On a scale of 1-5, how severe are the symptoms?",
+            min_value=1, max_value=5
+            )
+
+        ## for notes, allow user to write any extra information
+
+        extra_notes = st.text_area(
+            "Any other information?", value = "N/A"
+        )
+
+        adding_symptom = st.form_submit_button("Add Symptom")
+
+        if adding_symptom and extra_notes and pain_options and d and symptom_opt1ons:
+            st.session_state.symptoms.append({
+                "date" : d,
+                "symptom" : symptom_opt1ons,
+                "severity" : pain_options,
+                "notes" : extra_notes
+            })
+            st.success(f"Added symptom!")
+
+    for symp in st.session_state.symptoms:
+        container = st.container(border=True)
+        container.markdown(f"**{symp['date']}**")
+        container.markdown(f"**Symptom(s)**: {', '.join(symp['symptom'])}")
+        container.markdown(f"**Pain Scale (1-5)**: {symp['severity']}")
+        container.markdown(f"**Notes**: {symp['notes']}")
 
 
 
