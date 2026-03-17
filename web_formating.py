@@ -71,11 +71,64 @@ if pages == "Prescription Hub":
     
 
 
+    
+
+
 elif pages == "Prescription Schedule":
     st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
     st_yled.title("Hello Susan!", font_size = "2.0rem")
     st.caption("Known when to take your subscriptions!")
     st.divider()
+    
+  
+    container = st.container(border=True)
+    sun, mon, tue, wed, thu, fri, sat = container.tabs(["   Sunday   ", "   Monday   ", "   Tuesday   ", "   Wednesday   ", "   Thursday   ","   Friday   ", "   Saturday   "], width="stretch")
+
+    with sun:
+        
+       st.header("Sunday")
+    with mon:
+        st.header("Monday")
+        
+    with tue:
+        st.header("Tuesday")
+       
+    with wed:
+        st.header("Wednesday")
+     
+    with thu:
+        st.header("Thursday")
+
+    with fri:
+        st.header("Friday")
+
+    with sat:
+        st.header("Saturday")
+
+    # sun, mon, tue, wed, thu, fri, sat = st.columns(7, width=700)
+
+    # with sun:
+    #     st.header("Sunday")
+        
+
+    # with mon:
+    #     st.header("Monday")
+        
+
+    # with tue:
+    #     st.header("Tuesday")
+        
+    # with wed:
+    #     st.header("Wednesday")
+        
+    # with thu:
+    #     st.header("Thursday")
+        
+    # with fri:
+    #     st.header("Friday")
+        
+    # with sat:
+    #     st.header("Saturday")
     
 
 elif pages == "Symptom Logging":
