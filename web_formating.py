@@ -70,14 +70,17 @@ if pages == "Prescription Hub":
 
 
 elif pages == "Prescription Schedule":
-    st_yled.title("Prescription Schedule", color = "#9aadba", font_size = "2.5rem")
-    st.header("Hello Susan!")
-    st.subheader("Known when to take your subscriptions!")
+    st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
+    st_yled.title("Hello Susan!", font_size = "2.0rem")
+    st.caption("Known when to take your subscriptions!")
+    st.divider()
+    
 
 elif pages == "Symptom Logging":
     st_yled.title("Symptom Logging", color = "#9aadba", font_size = "2.5rem")
     st.header("Hello Susan!")
     st.caption("How are you feeling today?")
+    st.divider()
 
     with st.form(key = "symptom_form"):
     ## use multiselect to choose symptoms
