@@ -195,7 +195,7 @@ elif pages == "Symptom Logging":
         ## rate severity of pain
         pain_options = st.number_input(
             "On a scale of 1-10, how severe are the symptoms?",
-            min_value=1, max_value=5
+            min_value=1, max_value=10
             )
 
         ## for notes, allow user to write any extra information
