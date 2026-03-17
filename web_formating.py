@@ -4,9 +4,12 @@ import datetime
 from loading_css import local_css
 from susans_meds import SUSANSMEDS
 from susans_symps import SUSANSYMP
+from user_profile import USERPROFILE
 
 st_yled.init()
 local_css("style.css")
+
+
 
 def time_sort_key(item):
     return datetime.datetime.strptime(item["time"], "%I:%M %p")
@@ -16,8 +19,10 @@ def get_daily_schedule():
     for med in st.session_state.medications:
         times = [t.strip() for t in med["time"].split(",")]
         for t in times:
+            # Force space before AM/PM
+            clean_time = t.replace("AM", " AM").replace("PM", " PM").replace("  ", " ").strip()
             schedule.append({
-                "time": t,
+                "time": clean_time,
                 "name": med["name"],
                 "dose": med["dose"],
                 "instructions": med["instructions"]
@@ -33,19 +38,29 @@ def render_schedule():
         box.caption(f"{item['instructions']}")
 
     
+if "userinfo" not in st.session_state:
+    st.session_state.userinfo = USERPROFILE
 
 if "symptoms" not in st.session_state:
     st.session_state.symptoms = SUSANSYMP
+
 if "medications" not in st.session_state:
     st.session_state.medications = SUSANSMEDS
+
+med_count = len(st.session_state.medications)
+example_user = st.session_state.userinfo
+
+first_name = example_user["first"]
+last_name = example_user["last"]
+user_age = example_user["age"]
 
 st.sidebar.title("Ctrl+Care")
 
 st.sidebar.markdown(
-    """
+    f"""
     <div style="background-color:#bccfd9; padding:10px; border-color:#9aadba; border-radius:8px;">
-        <b>Susan Martinez</b><br>
-        Age 68 - 4 medications
+        <b>{first_name} {last_name} </b><br>
+        Age {user_age} - {med_count} medications
     </div>
     """,
     unsafe_allow_html=True
@@ -54,7 +69,7 @@ pages = st.sidebar.radio("Directory", ["Prescription Hub", "Prescription Schedul
 
 if pages == "Prescription Hub":
     st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
-    st_yled.title("Hello Susan!", font_size = "2.0rem")
+    st_yled.title(f"Hello {first_name}!", font_size = "2.0rem")
     st.caption("Check out and add new prescriptions!")
     st.divider()
 
@@ -98,7 +113,7 @@ if pages == "Prescription Hub":
 
 elif pages == "Prescription Schedule":
     st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
-    st_yled.title("Hello Susan!", font_size = "2.0rem")
+    st_yled.title(f"Hello {first_name}!", font_size = "2.0rem")
     st.caption("Known when to take your subscriptions!")
     st.divider()
     
@@ -152,11 +167,12 @@ elif pages == "Prescription Schedule":
     
 
 elif pages == "Symptom Logging":
-    st_yled.title("Symptom Logging", color = "#9aadba", font_size = "2.5rem")
-    st.header("Hello Susan!")
+    st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
+    st_yled.title(f"Hello {first_name}!", font_size = "2.0rem")
     st.caption("How are you feeling today?")
     st.divider()
 
+    
     with st.form(key = "symptom_form", clear_on_submit = True):
     ## use multiselect to choose symptoms
         symptom_opt1ons = st.multiselect(
