@@ -6,11 +6,6 @@ from susans_meds import SUSANSMEDS
 st_yled.init()
 local_css("style.css")
 
-
-
-
-
-
 if "medications" not in st.session_state:
     st.session_state.medications = SUSANSMEDS
 
@@ -23,6 +18,8 @@ if pages == "Prescription Hub":
     st_yled.title("Hello Susan!", font_size = "2.0rem")
     st.caption("Check out and add new subscriptions!")
 
+
+
 elif pages == "Prescription Schedule":
     st_yled.title("Prescription Schedule", color = "#9aadba", font_size = "2.5rem")
     st.header("Hello Susan!")
@@ -32,3 +29,10 @@ elif pages == "Symptom Logging":
      st_yled.title("Symptom Logging", color = "#9aadba", font_size = "2.5rem")
      st.header("Hello Susan!")
      st.caption("How are you feeling today?")
+
+
+
+
+
+
+
