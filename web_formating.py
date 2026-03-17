@@ -96,13 +96,7 @@ if pages == "Prescription Hub":
             
                 st.success(f"Added {drug_name}!")
             
-            
-        # "name": "Lisinopril",
-        # "dose": "10mg",
-        # "frequency": "Once daily",
-        # "time": "8:00 AM",
-        # "purpose": "Blood Pressure",
-        # "instructions": "Take on empty stomach"
+       
     for med in st.session_state.medications:
         container = st.container(border=True)
         container.markdown(f"**{med['name']}** — {med['dose']}")
@@ -140,33 +134,10 @@ elif pages == "Prescription Schedule":
     with sat:
         render_schedule()
 
-    # sun, mon, tue, wed, thu, fri, sat = st.columns(7, width=700)
-
-    # with sun:
-    #     st.header("Sunday")
-        
-
-    # with mon:
-    #     st.header("Monday")
-        
-
-    # with tue:
-    #     st.header("Tuesday")
-        
-    # with wed:
-    #     st.header("Wednesday")
-        
-    # with thu:
-    #     st.header("Thursday")
-        
-    # with fri:
-    #     st.header("Friday")
-        
-    # with sat:
-    #     st.header("Saturday")
     
 
 elif pages == "Symptom Logging":
+    providers_email = example_user["provider"]
     st_yled.title("Prescription Hub", color = "#9aadba", font_size = "2.5rem")
     st_yled.title(f"Hello {first_name}!", font_size = "2.0rem")
     st.caption("How are you feeling today?")
